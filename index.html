@@ -92,7 +92,7 @@
 
     <div style="display: flex; flex-flow: row; height: 31px; margin: 0; padding: 0;">
         <div style="margin: 0; padding: 0; width: 60px;">
-            <input id="index" style="height: 30px; margin: 0; padding: 0; width: 100%;" type="number" value="0" max="4999" min="0">
+            <input id="index" style="height: 30px; margin: 0; padding: 0; width: 100%;" type="number" value="0" max="8999" min="0">
         </div>
         <div style="margin: 0; padding: 0; width: 186px;">
 
@@ -367,7 +367,7 @@
             function imageGroup() {
                 if (this.id === "d" && this.checked) {
                     images = baseImages;
-                    document.getElementById('index').max = 4999;
+                    document.getElementById('index').max = 8999;
                     document.getElementById('index').value = 0;
 
                     changeImage(0);
