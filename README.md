@@ -2,6 +2,7 @@
 
 <pre>
 Controls:
+Scrollwheel - Zoom at Cursor
 Left/Right Arrow Keys - Pevious / Next Image
 Up/Down Arrow Keys - Mask Opacity
 Comma/Space - Toggle Segnet Mask Layer
