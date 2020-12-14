@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        .zoom-img-pixelated {
+            cursor: move;
+            display: block;
+            height: 100%;
+            image-rendering: pixelated;
+            margin: auto;
+            position: relative;
+            transform-origin: 0 0;
+        }
+
+        .zoom-img-hq {
+            cursor: move;
+            display: block;
+            height: 100%;
+            image-rendering: high-quality;
+            margin: auto;
+            position: relative;
+            transform-origin: 0 0;
+        }
+
+        .mask-img {
+            cursor: move;
+            display: block;
+            height: 100%;
+            image-rendering: pixelated;
+            margin: auto;
+            position: relative;
+            transform-origin: 0 0;
+        }
+
+        #zoom-container {
+            background: black;
+            flex-grow: 1;
+            margin: 0;
+            overflow: hidden;
+            padding: 0
+        }
+
+        .button {
+            height: 50px;
+            width: 100px;
+        }
+
+        .parent {
+            height: 100%;
+            left: 0;
+            position: relative;
+            top: 0;
+            width: 100%;
+        }
+
+        #image2 { }
+
+        #image1 { opacity: 0.5; }
+
+        #image3 { opacity: 0.5; }
+    </style>
+</head>
+<body id="fullbody">
+<div style="display: flex; flex-flow: column; height: 100%; margin: 0; padding: 0">
+    <div id="zoom-container">
+        <div class="parent">
+            <div style="height: 100%; position: absolute; ;">
+                <img ondragstart="return false" id="image2" class="zoom-img-pixelated" src="https://raw.githubusercontent.com/commaai/comma10k/master/imgs/0000_0085e9e41513078a_2018-08-19--13-26-08_11_864.png" style="user-select: none;"/>
+            </div>
+            <div id="confusionContainer" style="height: 100%; position: absolute; ;">
+                <img ondragstart="return false" id="image3" class="mask-img" src="https://raw.githubusercontent.com/spektor56/comma10k/gh-pages/ConfusionMasks/0000_0085e9e41513078a_2018-08-19--13-26-08_11_864.png" style="user-select: none;"/>
+            </div>
+            <div id="maskContainer" style="height: 100%; position: absolute; ;">
+                <img ondragstart="return false" id="image1" class="mask-img" src="https://raw.githubusercontent.com/commaai/comma10k/master/masks/0000_0085e9e41513078a_2018-08-19--13-26-08_11_864.png" style="user-select: none;"/>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div style="display: flex; flex-flow: row; height: 30px; margin: 0; padding: 0;">
+        <div style="margin: 0; padding: 0; width: 60px;">
+            <input id="index" style="height: 30px; margin: 0; padding: 0; width: 100%;" type="number" value="0" max="4999" min="0">
+        </div>
+        <div style="margin: 0; padding: 0; width: 186px;">
+
+
+            <label style="float: left">
+                <input id="d" class="with-gap" name="group3" type="radio" checked/>
+                <span style="padding-left: 25px">D;</span>
+            </label>
+            <label >
+                <input id="h" class="with-gap" name="group3" type="radio"/>
+                <span style="padding-left: 25px">H;</span>
+            </label>
+            <label >
+                <input id="r" class="with-gap" name="group3" type="radio"/>
+                <span style="padding-left: 25px">R;</span>
+            </label>
+            <label >
+                <input id="s" class="with-gap" name="group3" type="radio"/>
+                <span style="padding-left: 25px">S;</span>
+            </label>
+        </div>
+        <div style="flex-grow: 1; margin: 0; padding: 0">
+            <input style="; margin: 0; padding: 0;" id="opacityControl" type="range" min="0" max="1" step="0.01" value="0.5" oninput="image1.style.opacity = document.getElementById('image1').classList.contains('hidden') ?  0 : opacityControl.value; image3.style.opacity = document.getElementById('image3').classList.contains('hidden') ?  0 : opacityControl.value"/>
+        </div>
+        <div style="flex-grow: 1; margin: 0; padding: 0">
+            <input style="; margin: 0; padding: 0;" id="brightnessControl" type="range" min="50" max="300" step="1" value="100" oninput="image2.style.filter = 'brightness('+brightnessControl.value+'%) contrast('+contrastControl.value+'%)'"/>
+        </div>
+        <div style="flex-grow: 1; margin: 0; padding: 0">
+            <input style="; margin: 0; padding: 0;" id="contrastControl" type="range" min="50" max="500" step="1" value="100" oninput="image2.style.filter = 'brightness('+brightnessControl.value+'%) contrast('+contrastControl.value+'%)'"/>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="ImageCollections/baseImages.js"></script>
+<script type="text/javascript" src="ImageCollections/hardImages.js"></script>
+<script type="text/javascript" src="ImageCollections/requestImages.js"></script>
+<script type="text/javascript" src="ImageCollections/saImages.js"></script>
+<script type="text/javascript" src="ImageCollections/userImages.js"></script>
+<script>
+    
+    document.addEventListener('DOMContentLoaded',
+        (event) => {
+
+            var images = baseImages;
+            var currentIndex = 0;
+            var currentScale = 1.0;
+            var origWidth = document.getElementById('image1').getBoundingClientRect().width;
+            var origHeight = document.getElementById('image1').getBoundingClientRect().height;
+            var translateX = 0;
+            var translateY = 0;
+
+
+            var zoomer = (function() {
+                var imgEle = null,
+                    imgEle2 = null,
+                    xCursor = 0,
+                    yCursor = 0,
+                    xImgEle = 0,
+                    yImgEle = 0,
+                    currentTop = 0,
+                    currentLeft = 0;
+
+
+                return {
+                    zoom: function(nextScale, event) {
+
+                        var mask = document.getElementById('image1');
+                        var image = document.getElementById('image2');
+                        var confusion = document.getElementById('image3');
+                        const ratio = 1 - nextScale / currentScale;
+
+                        const {
+                            clientX,
+                            clientY
+                        } = event;
+
+                        translateX += (clientX - translateX) * ratio;
+                        translateY += (clientY - translateY) * ratio;
+
+                        if (nextScale < 1) {
+                            nextScale = 1;
+
+                            translateY = 0;
+                            translateX = (window.innerWidth - document.getElementById("image1").getBoundingClientRect().width) / 2;
+                        }
+
+
+/*			
+				if (translateY > 0)
+                {
+                    translateY =0;
+                }
+				
+                if (translateY < -(mask.getBoundingClientRect().height- orig_height))
+                {
+                    translateY = -(mask.getBoundingClientRect().height- orig_height)
+                }
+  */
+
+                        mask.style.transform = `translate(${translateX}px, ${translateY}px) scale(${nextScale})`;
+                        image.style.transform = mask.style.transform;
+                        confusion.style.transform = mask.style.transform;
+
+                        currentScale = nextScale;
+                    },
+
+                    start_drag: function() {
+
+
+                        imgEle = document.getElementById('image1');
+                        imgEle2 = document.getElementById('image2');
+                        img_ele3 = document.getElementById('image3');
+
+                        translateX = (window.event.clientX - translateX);
+                        translateY = (window.event.clientY - translateY);
+
+
+                    },
+
+                    stop_drag: function() {
+
+                        if (imgEle !== null) {
+                            translateX = (window.event.clientX - translateX);
+                            translateY = (window.event.clientY - translateY);
+
+                        }
+                        imgEle = null;
+                    },
+
+                    while_drag: function() {
+
+                        if (imgEle !== null) {
+                            var xCursor = window.event.clientX;
+                            var yCursor = window.event.clientY;
+                            var newLeft = (xCursor - translateX);
+
+                            var newTop = (yCursor - translateY);
+
+
+                            if (newTop > 0) {
+                                newTop = 0;
+                            }
+
+                            if (newTop < -(imgEle.getBoundingClientRect().height - origHeight)) {
+                                newTop = -(imgEle.getBoundingClientRect().height - origHeight);
+                            }
+
+
+                            imgEle.style.transform = `translate(${newLeft}px, ${newTop}px)  scale(${currentScale}) `;
+                            imgEle2.style.transform = imgEle.style.transform;
+                            img_ele3.style.transform = imgEle.style.transform;
+
+
+                            //console.log(img_ele.style.left+' - '+img_ele.style.top);
+                        }
+                    }
+                };
+            }());
+
+
+            function checkKey(e) {
+
+                e = e || window.event;
+
+                if (e.keyCode == '38') {
+                    // up arrow
+                    var opacityControl = document.getElementById("opacityControl");
+                    opacityControl.stepUp(1);
+                    if (!document.getElementById("image1").classList.contains("hidden")) {
+                        document.getElementById("image1").style.opacity = opacityControl.value;
+                    }
+                    if (!document.getElementById("image3").classList.contains("hidden")) {
+                        document.getElementById("image3").style.opacity = opacityControl.value;
+                    }
+                } else if (e.keyCode == '40') {
+                    var opacityControl = document.getElementById("opacityControl");
+                    opacityControl.stepDown(1);
+                    if (!document.getElementById("image1").classList.contains("hidden")) {
+                        document.getElementById("image1").style.opacity = opacityControl.value;
+                    }
+                    if (!document.getElementById("image3").classList.contains("hidden")) {
+                        document.getElementById("image3").style.opacity = opacityControl.value;
+                    }
+                } else if (e.keyCode == '37') {
+
+                    if ((currentIndex - 1) < document.getElementById('index').min) {
+                        return;
+                    }
+                    currentIndex = currentIndex - 1;
+                    document.getElementById('index').value = currentIndex;
+                    changeImage(currentIndex);
+
+                } else if (e.keyCode == '39') {
+                    if ((currentIndex + 1) > document.getElementById('index').max) {
+                        return;
+                    }
+                    currentIndex = currentIndex + 1;
+                    document.getElementById('index').value = currentIndex;
+                    changeImage(currentIndex);
+                    // right arrow
+                } else if (e.keyCode == '188' || e.keyCode == '32') {
+                    if (!document.getElementById("image1").classList.contains("hidden")) {
+                        document.getElementById("image1").style.opacity = 0;
+                        document.getElementById("image1").classList.add("hidden");
+
+                    } else {
+                        document.getElementById("image1").style.opacity = document.getElementById("opacityControl").value;
+                        document.getElementById("image1").classList.remove("hidden");
+                    }
+
+                } else if (e.keyCode == '67') {
+                    if (!document.getElementById("image3").classList.contains("hidden")) {
+                        document.getElementById("image3").style.opacity = 0;
+                        document.getElementById("image3").classList.add("hidden");
+                    } else {
+                        document.getElementById("image3").style.opacity = document.getElementById("opacityControl").value;
+                        document.getElementById("image3").classList.remove("hidden");
+                    }
+
+                } else if (e.keyCode == '80') {
+                    if (document.getElementById("image2").classList.contains("zoom-img-pixelated")) {
+                        document.getElementById("image2").classList.remove("zoom-img-pixelated");
+                        document.getElementById("image2").classList.add("zoom-img-hq");
+                    } else {
+                        document.getElementById("image2").classList.remove("zoom-img-hq");
+                        document.getElementById("image2").classList.add("zoom-img-pixelated");
+                    }
+
+                }
+            }
+
+            function imageGroup() {
+                if (this.id === "d" && this.checked) {
+                    images = baseImages;
+                    document.getElementById('index').max = 4999;
+                    document.getElementById('index').value = 0;
+
+                    changeImage(0);
+                } else if (this.id === "h" && this.checked) {
+                    images = hardImages;
+                    document.getElementById('index').max = 799;
+                    document.getElementById('index').value = 0;
+
+                    changeImage(0);
+                } else if (this.id === "r" && this.checked) {
+                    images = requestImages;
+                    document.getElementById('index').max = 84;
+                    document.getElementById('index').value = 0;
+
+                    changeImage(0);
+                } else if (this.id === "s" && this.checked) {
+                    images = saImages;
+                    document.getElementById('index').max = 3999;
+                    document.getElementById('index').value = 0;
+
+                    changeImage(0);
+                }
+            }
+
+            function changeImage(index) {
+                currentIndex = index;
+
+                document.getElementById("image2").src = "https://raw.githubusercontent.com/commaai/comma10k/master/imgs/" + images[index];
+                document.getElementById("image1").src = "https://raw.githubusercontent.com/commaai/comma10k/master/masks/" + images[index];
+                document.getElementById("image3").src = "https://raw.githubusercontent.com/spektor56/comma10k/gh-pages/ConfusionMasks/" + images[index];
+                resetView();
+                M.Toast.dismissAll();
+                M.toast({ html: images[index] });
+            }
+
+            function resetView() {
+                translateY = 0;
+                translateX = (window.innerWidth - document.getElementById("image1").getBoundingClientRect().width) / 2;
+                currentScale = 1;
+                document.getElementById("image1").style.transform = `translate(${translateX}px, ${translateY}px)  scale(${1}) `;
+                document.getElementById("image2").style.transform = document.getElementById("image1").style.transform;
+                document.getElementById("image3").style.transform = document.getElementById("image1").style.transform;
+
+            }
+
+            function imageLoaded() {
+                if (currentScale === 1.0) {
+                    origWidth = document.getElementById("image2").getBoundingClientRect().width;
+                    origHeight = document.getElementById("image2").getBoundingClientRect().height;
+                }
+
+                translateX = (window.innerWidth - document.getElementById("image2").getBoundingClientRect().width) / 2;
+
+                document.getElementById("image1").style.transform = `translate(${translateX}px, ${translateY}px)  scale(${currentScale}) `;
+                document.getElementById("image2").style.transform = document.getElementById("image1").style.transform;
+                document.getElementById("image3").style.transform = document.getElementById("image1").style.transform;
+            }
+
+            window.addEventListener("dblclick",
+                event => {
+                    
+                    const nextScale = currentScale + 0.25;
+
+                    zoomer.zoom(nextScale, event);
+
+                });
+
+            window.addEventListener("wheel",
+                event => {
+
+                    const delta = event.wheelDelta / 120;
+                    const nextScale = currentScale + delta;
+
+                    zoomer.zoom(nextScale, event);
+
+                });
+
+            document.getElementById('image1').addEventListener('mousedown', zoomer.start_drag);
+            document.getElementById('image2').addEventListener('load', imageLoaded);
+            document.getElementById('zoom-container').addEventListener('mousemove', zoomer.while_drag);
+            document.getElementById('zoom-container').addEventListener('mouseup', zoomer.stop_drag);
+            document.getElementById('zoom-container').addEventListener('mouseout', zoomer.stop_drag);
+            document.getElementById('index').addEventListener('change', function(evt) { changeImage(Number(this.value)) });
+            document.getElementById('d').addEventListener('change', imageGroup);
+            document.getElementById('h').addEventListener('change', imageGroup);
+            document.getElementById('r').addEventListener('change', imageGroup);
+            document.getElementById('s').addEventListener('change', imageGroup);
+
+            document.onkeydown = checkKey;
+
+        })
+
+
+</script>
