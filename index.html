@@ -328,14 +328,28 @@
                     var copyLink = "";
                     var copyMessage = "";
                     if (e.keyCode == '112') {
+                        var type = 'd';
+                        
+                        if (document.getElementById('r').checked) {
+                            type = 'r';
+                        } else if (document.getElementById('h').checked) {
+                            type = 'h';
+                        } else if (document.getElementById('s').checked) {
+                            type = 's';
+                        }
+
+                        copyLink = location.toString().replace(location.search, "") + "?id=" + currentIndex + "&type=" + type;
+                        copyMessage = "Copied link to current view";
+                    }
+                    if (e.keyCode == '113') {
                         copyLink = "https://raw.githubusercontent.com/commaai/comma10k/master/imgs/" + images[currentIndex];
                         copyMessage = "Copied base image URL to clipboard";
                     }
-                    else if (e.keyCode == '113') {
+                    else if (e.keyCode == '114') {
                         copyLink = "https://raw.githubusercontent.com/commaai/comma10k/master/masks/" + images[currentIndex];
                         copyMessage = "Copied segnet mask URL to clipboard";
                     }
-                    else if (e.keyCode == '114') {
+                    else if (e.keyCode == '115') {
                         copyLink = "https://raw.githubusercontent.com/spektor56/comma10kviewer/master/ConfusionMasks/" + images[currentIndex];
                         copyMessage = "Copied confusion URL mask to clipboard";
                     }
@@ -443,6 +457,31 @@
             document.getElementById('s').addEventListener('change', imageGroup);
 
             document.onkeydown = checkKey;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams != null) {
+                const id = urlParams.get('id');
+                if (id != null) {
+                    const type = urlParams.get('type');
+                    var newIndex = id;
+                    if (type == 'r') {
+                        document.getElementById('r').click();
+                        newIndex = Math.min(newIndex, requestImages.length - 1);
+                    } else if (type == 'h') {
+                        document.getElementById('h').click();
+                        newIndex = Math.min(newIndex, hardImages.length - 1);
+                    } else if (type == 's') {
+                        document.getElementById('s').click();
+                        newIndex = Math.min(newIndex, saImages.length - 1);
+
+                    } else {
+                        newIndex = Math.min(newIndex, baseImages.length - 1);
+                    }
+                    
+                    document.getElementById('index').value = newIndex;
+                    changeImage(newIndex);
+                }
+            }
 
         })
 
