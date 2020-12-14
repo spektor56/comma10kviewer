@@ -80,7 +80,7 @@
                 <img ondragstart="return false" id="image2" class="zoom-img-pixelated" src="https://raw.githubusercontent.com/commaai/comma10k/master/imgs/0000_0085e9e41513078a_2018-08-19--13-26-08_11_864.png" style="user-select: none;"/>
             </div>
             <div id="confusionContainer" style="height: 100%; position: absolute; ;">
-                <img ondragstart="return false" id="image3" class="mask-img" src="https://raw.githubusercontent.com/spektor56/comma10k/gh-pages/ConfusionMasks/0000_0085e9e41513078a_2018-08-19--13-26-08_11_864.png" style="user-select: none;"/>
+                <img ondragstart="return false" id="image3" class="mask-img" src="https://raw.githubusercontent.com/spektor56/comma10kviewer/master/ConfusionMasks/0000_0085e9e41513078a_2018-08-19--13-26-08_11_864.png" style="user-select: none;"/>
             </div>
             <div id="maskContainer" style="height: 100%; position: absolute; ;">
                 <img ondragstart="return false" id="image1" class="mask-img" src="https://raw.githubusercontent.com/commaai/comma10k/master/masks/0000_0085e9e41513078a_2018-08-19--13-26-08_11_864.png" style="user-select: none;"/>
@@ -358,7 +358,7 @@
 
                 document.getElementById("image2").src = "https://raw.githubusercontent.com/commaai/comma10k/master/imgs/" + images[index];
                 document.getElementById("image1").src = "https://raw.githubusercontent.com/commaai/comma10k/master/masks/" + images[index];
-                document.getElementById("image3").src = "https://raw.githubusercontent.com/spektor56/comma10k/gh-pages/ConfusionMasks/" + images[index];
+                document.getElementById("image3").src = "https://raw.githubusercontent.com/spektor56/comma10kviewer/master/ConfusionMasks/" + images[index];
                 resetView();
                 M.Toast.dismissAll();
                 M.toast({ html: images[index] });
