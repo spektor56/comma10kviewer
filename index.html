@@ -322,7 +322,32 @@
                         document.getElementById("image2").classList.add("zoom-img-pixelated");
                     }
 
+                } else if (e.keyCode == '112' || e.keyCode == '113' || e.keyCode == '114') {
+                    e.preventDefault()
+
+                    var copyLink = "";
+                    var copyMessage = "";
+                    if (e.keyCode == '112') {
+                        copyLink = "https://raw.githubusercontent.com/commaai/comma10k/master/imgs/" + images[currentIndex];
+                        copyMessage = "Copied base image URL to clipboard";
+                    }
+                    else if (e.keyCode == '113') {
+                        copyLink = "https://raw.githubusercontent.com/commaai/comma10k/master/masks/" + images[currentIndex];
+                        copyMessage = "Copied segnet mask URL to clipboard";
+                    }
+                    else if (e.keyCode == '114') {
+                        copyLink = "https://raw.githubusercontent.com/spektor56/comma10kviewer/master/ConfusionMasks/" + images[currentIndex];
+                        copyMessage = "Copied confusion URL mask to clipboard";
+                    }
+
+                    navigator.clipboard.writeText(copyLink).then(function () {
+                        M.Toast.dismissAll();
+                        M.toast({ html: copyMessage });
+                    }, function(err) {
+                        console.error('Async: Could not copy text: ', err);
+                    });
                 }
+                
             }
 
             function imageGroup() {
