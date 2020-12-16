@@ -98,30 +98,33 @@
 
 
             <label style="float: left">
-                <input id="d" class="with-gap" name="group3" type="radio" checked/>
+                <input id="d" class="with-gap" name="group3" type="radio" checked />
                 <span style="padding-left: 25px">D;</span>
             </label>
-            <label >
-                <input id="h" class="with-gap" name="group3" type="radio"/>
+            <label>
+                <input id="h" class="with-gap" name="group3" type="radio" />
                 <span style="padding-left: 25px">H;</span>
             </label>
-            <label >
-                <input id="r" class="with-gap" name="group3" type="radio"/>
+            <label>
+                <input id="r" class="with-gap" name="group3" type="radio" />
                 <span style="padding-left: 25px">R;</span>
             </label>
-            <label >
-                <input id="s" class="with-gap" name="group3" type="radio"/>
+            <label>
+                <input id="s" class="with-gap" name="group3" type="radio" />
                 <span style="padding-left: 25px">S;</span>
             </label>
         </div>
         <div style="flex-grow: 1; margin: 0; padding: 0">
-            <input style="; margin: 0; padding: 0;" id="opacityControl" type="range" min="0" max="1" step="0.01" value="0.5" oninput="image1.style.opacity = document.getElementById('image1').classList.contains('hidden') ?  0 : opacityControl.value; image3.style.opacity = document.getElementById('image3').classList.contains('hidden') ?  0 : opacityControl.value"/>
+            <input style="margin: 0; padding: 0;" id="opacityControl" type="range" min="0" max="1" step="0.01" value="0.5" oninput="image1.style.opacity = document.getElementById('image1').classList.contains('hidden') ?  0 : opacityControl.value; image3.style.opacity = document.getElementById('image3').classList.contains('hidden') ?  0 : opacityControl.value" />
         </div>
         <div style="flex-grow: 1; margin: 0; padding: 0">
-            <input style="; margin: 0; padding: 0;" id="brightnessControl" type="range" min="50" max="300" step="1" value="100" oninput="image2.style.filter = 'brightness('+brightnessControl.value+'%) contrast('+contrastControl.value+'%)'"/>
+            <input style="margin: 0; padding: 0;" id="brightnessControl" type="range" min="50" max="300" step="1" value="100" oninput="image2.style.filter = 'brightness('+brightnessControl.value+'%) contrast('+contrastControl.value+'%)'" />
         </div>
         <div style="flex-grow: 1; margin: 0; padding: 0">
-            <input style="; margin: 0; padding: 0;" id="contrastControl" type="range" min="50" max="500" step="1" value="100" oninput="image2.style.filter = 'brightness('+brightnessControl.value+'%) contrast('+contrastControl.value+'%)'"/>
+            <input style="margin: 0; padding: 0;" id="contrastControl" type="range" min="50" max="500" step="1" value="100" oninput="image2.style.filter = 'brightness('+brightnessControl.value+'%) contrast('+contrastControl.value+'%)'" />
+        </div>
+        <div style="width:auto; margin: 0; padding: 0">
+            <a href="" onclick="location.href='https://erikbernheim.github.io/img-labeler' + '?imageNumber='+currentIndex;return false;">Open Editor</a>
         </div>
     </div>
 </div>
@@ -133,12 +136,12 @@
 <script type="text/javascript" src="ImageCollections/saImages.js"></script>
 <script type="text/javascript" src="ImageCollections/userImages.js"></script>
 <script>
-    
+    var currentIndex = 0;
     document.addEventListener('DOMContentLoaded',
         (event) => {
 
             var images = baseImages;
-            var currentIndex = 0;
+            
             var currentScale = 1.0;
             var origWidth = document.getElementById('image1').getBoundingClientRect().width;
             var origHeight = document.getElementById('image1').getBoundingClientRect().height;
