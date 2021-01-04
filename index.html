@@ -141,7 +141,6 @@
         (event) => {
 
             var images = baseImages;
-            var images2 = baseImages;
             
             var currentScale = 1.0;
             var origWidth = document.getElementById('image1').getBoundingClientRect().width;
@@ -350,7 +349,7 @@
                         copyMessage = "Copied base image URL to clipboard";
                     }
                     else if (e.keyCode == '114') {
-                        copyLink = "https://raw.githubusercontent.com/spektor56/comma10k/saTest/masks/" + images[currentIndex];
+                        copyLink = "https://raw.githubusercontent.com/commaai/comma10k/master/masks/" + images[currentIndex];
                         copyMessage = "Copied segnet mask URL to clipboard";
                     }
                     else if (e.keyCode == '115') {
@@ -398,10 +397,10 @@
 
             function changeImage(index) {
                 currentIndex = index;
-                
-                document.getElementById("image2").src = "https://raw.githubusercontent.com/spektor56/comma10k/saTest/imgs/" + images2[index+5000];
-                document.getElementById("image1").src = "https://raw.githubusercontent.com/spektor56/comma10k/saTest/masks/" + images[index];
-                //document.getElementById("image3").src = "https://raw.githubusercontent.com/spektor56/comma10kviewer/master/ConfusionMasks/" + images[index];
+
+                document.getElementById("image2").src = "https://raw.githubusercontent.com/commaai/comma10k/master/imgs/" + images[index];
+                document.getElementById("image1").src = "https://raw.githubusercontent.com/commaai/comma10k/master/masks/" + images[index];
+                document.getElementById("image3").src = "https://raw.githubusercontent.com/spektor56/comma10kviewer/master/ConfusionMasks/" + images[index];
                 resetView();
                 M.Toast.dismissAll();
                 M.toast({ html: images[index] });
