@@ -65,71 +65,76 @@
             width: 100%;
         }
 
-        #image2 { }
+        #image2 {
+        }
 
-        #image1 { opacity: 0.5; }
+        #image1 {
+            opacity: 0.5;
+        }
 
-        #image3 { opacity: 0.5; }
+        #image3 {
+            opacity: 0.5;
+        }
     </style>
 </head>
 <body id="fullbody">
-<div style="display: flex; flex-flow: column; height: 100%; margin: 0; padding: 0">
-    <div id="zoom-container">
-        <div class="parent">
-            <div style="height: 100%; position: absolute; ;">
-                <img ondragstart="return false" id="image2" class="zoom-img-pixelated" src="https://raw.githubusercontent.com/commaai/comma10k/master/imgs/0000_0085e9e41513078a_2018-08-19--13-26-08_11_864.png" style="user-select: none;"/>
+    <div style="display: flex; flex-flow: column; height: 100%; margin: 0; padding: 0">
+        <div id="zoom-container">
+            <div class="parent">
+                <div style="height: 100%; position: absolute; ;">
+                    <img ondragstart="return false" id="image2" class="zoom-img-pixelated" src="https://raw.githubusercontent.com/commaai/comma10k/master/imgs/0000_0085e9e41513078a_2018-08-19--13-26-08_11_864.png" style="user-select: none;" />
+                </div>
+                <div id="confusionContainer" style="height: 100%; position: absolute; ;">
+                    <img ondragstart="return false" id="image3" class="mask-img" src="https://raw.githubusercontent.com/spektor56/comma10kviewer/master/ConfusionMasks/0000_0085e9e41513078a_2018-08-19--13-26-08_11_864.png" style="user-select: none;opacity:0;hidden;" />
+                </div>
+                <div id="maskContainer" style="height: 100%; position: absolute; ;">
+                    <img ondragstart="return false" id="image1" class="mask-img" src="https://raw.githubusercontent.com/commaai/comma10k/master/masks/0000_0085e9e41513078a_2018-08-19--13-26-08_11_864.png" style="user-select: none;" />
+                </div>
             </div>
-            <div id="confusionContainer" style="height: 100%; position: absolute; ;">
-                <img ondragstart="return false" id="image3" class="mask-img" src="https://raw.githubusercontent.com/spektor56/comma10kviewer/master/ConfusionMasks/0000_0085e9e41513078a_2018-08-19--13-26-08_11_864.png" style="user-select: none;opacity:0;hidden;"/>
-            </div>
-            <div id="maskContainer" style="height: 100%; position: absolute; ;">
-                <img ondragstart="return false" id="image1" class="mask-img" src="https://raw.githubusercontent.com/commaai/comma10k/master/masks/0000_0085e9e41513078a_2018-08-19--13-26-08_11_864.png" style="user-select: none;"/>
-            </div>
+
         </div>
 
+
+        <div style="display: flex; flex-flow: row; height: 31px; margin: 0; padding: 0;">
+            <div style="margin: 0; padding: 0; width: 60px;">
+                <input id="index" style="height: 30px; margin: 0; padding: 0; width: 100%;" type="number" value="0" max="8999" min="0">
+            </div>
+            <div style="margin: 0; padding: 0; width: 186px;">
+
+
+                <label style="float: left">
+                    <input id="d" class="with-gap" name="group3" type="radio" checked />
+                    <span style="padding-left: 25px">D;</span>
+                </label>
+                <label>
+                    <input id="h" class="with-gap" name="group3" type="radio" />
+                    <span style="padding-left: 25px">H;</span>
+                </label>
+                <label>
+                    <input id="r" class="with-gap" name="group3" type="radio" />
+                    <span style="padding-left: 25px">R;</span>
+                </label>
+                <!--
+                    <label>
+                        <input id="s" class="with-gap" name="group3" type="radio" />
+                        <span style="padding-left: 25px">S;</span>
+                    </label>
+                -->
+            </div>
+            <div style="flex-grow: 1; margin: 0; padding: 0">
+                <input style="margin: 0; padding: 0;" id="opacityControl" type="range" min="0" max="1" step="0.01" value="0.5" oninput="image1.style.opacity = document.getElementById('image1').classList.contains('hidden') ?  0 : opacityControl.value; image3.style.opacity = document.getElementById('image3').classList.contains('hidden') ?  0 : opacityControl.value" />
+            </div>
+            <div style="flex-grow: 1; margin: 0; padding: 0">
+                <input style="margin: 0; padding: 0;" id="brightnessControl" type="range" min="50" max="300" step="1" value="100" oninput="image2.style.filter = 'brightness('+brightnessControl.value+'%) contrast('+contrastControl.value+'%)'" />
+            </div>
+            <div style="flex-grow: 1; margin: 0; padding: 0">
+                <input style="margin: 0; padding: 0;" id="contrastControl" type="range" min="50" max="500" step="1" value="100" oninput="image2.style.filter = 'brightness('+brightnessControl.value+'%) contrast('+contrastControl.value+'%)'" />
+            </div>
+            <div style="width:auto; margin: 0; padding: 0">
+                <a href="" onclick="location.href='https://erikbernheim.github.io/img-labeler' + '?imageNumber='+ maskImages[currentIndex].split('_')[0] + '&showMask=true';return false;">Open Editor</a>
+            </div>
+        </div>
     </div>
-
-
-    <div style="display: flex; flex-flow: row; height: 31px; margin: 0; padding: 0;">
-        <div style="margin: 0; padding: 0; width: 60px;">
-            <input id="index" style="height: 30px; margin: 0; padding: 0; width: 100%;" type="number" value="0" max="8999" min="0">
-        </div>
-        <div style="margin: 0; padding: 0; width: 186px;">
-
-
-            <label style="float: left">
-                <input id="d" class="with-gap" name="group3" type="radio" checked />
-                <span style="padding-left: 25px">D;</span>
-            </label>
-            <label>
-                <input id="h" class="with-gap" name="group3" type="radio" />
-                <span style="padding-left: 25px">H;</span>
-            </label>
-            <label>
-                <input id="r" class="with-gap" name="group3" type="radio" />
-                <span style="padding-left: 25px">R;</span>
-            </label>
-		<!--
-            <label>
-                <input id="s" class="with-gap" name="group3" type="radio" />
-                <span style="padding-left: 25px">S;</span>
-            </label>
-		-->
-        </div>
-        <div style="flex-grow: 1; margin: 0; padding: 0">
-            <input style="margin: 0; padding: 0;" id="opacityControl" type="range" min="0" max="1" step="0.01" value="0.5" oninput="image1.style.opacity = document.getElementById('image1').classList.contains('hidden') ?  0 : opacityControl.value; image3.style.opacity = document.getElementById('image3').classList.contains('hidden') ?  0 : opacityControl.value" />
-        </div>
-        <div style="flex-grow: 1; margin: 0; padding: 0">
-            <input style="margin: 0; padding: 0;" id="brightnessControl" type="range" min="50" max="300" step="1" value="100" oninput="image2.style.filter = 'brightness('+brightnessControl.value+'%) contrast('+contrastControl.value+'%)'" />
-        </div>
-        <div style="flex-grow: 1; margin: 0; padding: 0">
-            <input style="margin: 0; padding: 0;" id="contrastControl" type="range" min="50" max="500" step="1" value="100" oninput="image2.style.filter = 'brightness('+brightnessControl.value+'%) contrast('+contrastControl.value+'%)'" />
-        </div>
-        <div style="width:auto; margin: 0; padding: 0">
-            <a href="" onclick="location.href='https://erikbernheim.github.io/img-labeler' + '?imageNumber='+ images[currentIndex].split('_')[0] + '&showMask=true';return false;">Open Editor</a>
-        </div>
-    </div>
-</div>
 </body>
 </html>
 <script type="text/javascript" src="ImageCollections/baseImages.js"></script>
@@ -139,12 +144,13 @@
 <script type="text/javascript" src="ImageCollections/userImages.js"></script>
 <script>
     var currentIndex = 0;
-	var imageType = '';
+    var imageType = '';
+    var maskImages = baseImages;
     document.addEventListener('DOMContentLoaded',
         (event) => {
 
-            var images = baseImages;
             
+
             var currentScale = 1.0;
             var origWidth = document.getElementById('image1').getBoundingClientRect().width;
             var origHeight = document.getElementById('image1').getBoundingClientRect().height;
@@ -152,7 +158,7 @@
             var translateY = 0;
 
 
-            var zoomer = (function() {
+            var zoomer = (function () {
                 var imgEle = null,
                     imgEle2 = null,
                     xCursor = 0,
@@ -164,7 +170,7 @@
 
 
                 return {
-                    zoom: function(nextScale, event) {
+                    zoom: function (nextScale, event) {
 
                         var mask = document.getElementById('image1');
                         var image = document.getElementById('image2');
@@ -187,17 +193,17 @@
                         }
 
 
-/*			
-				if (translateY > 0)
-                {
-                    translateY =0;
-                }
-				
-                if (translateY < -(mask.getBoundingClientRect().height- orig_height))
-                {
-                    translateY = -(mask.getBoundingClientRect().height- orig_height)
-                }
-  */
+                        /*
+                                        if (translateY > 0)
+                                        {
+                                            translateY =0;
+                                        }
+
+                                        if (translateY < -(mask.getBoundingClientRect().height- orig_height))
+                                        {
+                                            translateY = -(mask.getBoundingClientRect().height- orig_height)
+                                        }
+                          */
 
                         mask.style.transform = `translate(${translateX}px, ${translateY}px) scale(${nextScale})`;
                         image.style.transform = mask.style.transform;
@@ -206,7 +212,7 @@
                         currentScale = nextScale;
                     },
 
-                    start_drag: function() {
+                    start_drag: function () {
 
 
                         imgEle = document.getElementById('image1');
@@ -219,7 +225,7 @@
 
                     },
 
-                    stop_drag: function() {
+                    stop_drag: function () {
 
                         if (imgEle !== null) {
                             translateX = (window.event.clientX - translateX);
@@ -229,7 +235,7 @@
                         imgEle = null;
                     },
 
-                    while_drag: function() {
+                    while_drag: function () {
 
                         if (imgEle !== null) {
                             var xCursor = window.event.clientX;
@@ -335,82 +341,82 @@
                     var copyMessage = "";
                     if (e.keyCode == '112') {
                         var type = 'd';
-                        
+
                         if (document.getElementById('r').checked) {
                             type = 'r';
                         } else if (document.getElementById('h').checked) {
                             type = 'h';
-                        } 
-			    /*
-			    else if (document.getElementById('s').checked) {
-                            type = 's';
                         }
-			*/
+                        /*
+                        else if (document.getElementById('s').checked) {
+                                    type = 's';
+                                }
+                    */
                         copyLink = location.toString().replace(location.search, "") + "?id=" + currentIndex + "&type=" + type;
                         copyMessage = "Copied link to current view";
                     }
                     if (e.keyCode == '113') {
-                        copyLink = "https://raw.githubusercontent.com/commaai/comma10k/master/imgs/" + images[currentIndex];
+                        copyLink = "https://raw.githubusercontent.com/commaai/comma10k/master/imgs/" + maskImages[currentIndex];
                         copyMessage = "Copied base image URL to clipboard";
                     }
                     else if (e.keyCode == '114') {
-                        copyLink = "https://raw.githubusercontent.com/commaai/comma10k/master/masks/" + images[currentIndex];
+                        copyLink = "https://raw.githubusercontent.com/commaai/comma10k/master/masks/" + maskImages[currentIndex];
                         copyMessage = "Copied segnet mask URL to clipboard";
                     }
                     else if (e.keyCode == '115') {
-                        copyLink = "https://raw.githubusercontent.com/spektor56/comma10kviewer/master/ConfusionMasks/" + images[currentIndex];
+                        copyLink = "https://raw.githubusercontent.com/spektor56/comma10kviewer/master/ConfusionMasks/" + maskImages[currentIndex];
                         copyMessage = "Copied confusion URL mask to clipboard";
                     }
 
                     navigator.clipboard.writeText(copyLink).then(function () {
                         M.Toast.dismissAll();
                         M.toast({ html: copyMessage });
-                    }, function(err) {
+                    }, function (err) {
                         console.error('Async: Could not copy text: ', err);
                     });
                 }
-                
+
             }
 
             function imageGroup() {
                 if (this.id === "d" && this.checked) {
-                    images = baseImages;
+                    maskImages = baseImages;
                     document.getElementById('index').max = 8999;
                     document.getElementById('index').value = 0;
-			imageType = '';
+                    imageType = '';
                     changeImage(0);
                 } else if (this.id === "h" && this.checked) {
-                    images = hardImages;
+                    maskImages = hardImages;
                     document.getElementById('index').max = 799;
                     document.getElementById('index').value = 0;
-		imageType = 'h';
+                    imageType = 'h';
                     changeImage(0);
                 } else if (this.id === "r" && this.checked) {
-                    images = requestImages;
+                    maskImages = requestImages;
                     document.getElementById('index').max = 84;
                     document.getElementById('index').value = 0;
-			imageType = 'r';
-                    changeImage(0);
-                } 
-		   /* else if (this.id === "s" && this.checked) {
-                    images = saImages;
-                    document.getElementById('index').max = 3999;
-                    document.getElementById('index').value = 0;
-			imageType = 's';
+                    imageType = 'r';
                     changeImage(0);
                 }
-		*/
+                /* else if (this.id === "s" && this.checked) {
+                         maskImages = saImages;
+                         document.getElementById('index').max = 3999;
+                         document.getElementById('index').value = 0;
+                 imageType = 's';
+                         changeImage(0);
+                     }
+             */
             }
 
             function changeImage(index) {
                 currentIndex = index;
 
-                document.getElementById("image2").src = "https://raw.githubusercontent.com/commaai/comma10k/master/imgs/" + images[index];
-                document.getElementById("image1").src = "https://raw.githubusercontent.com/commaai/comma10k/master/masks/" + images[index];
-                document.getElementById("image3").src = "https://raw.githubusercontent.com/spektor56/comma10kviewer/master/ConfusionMasks/" + images[index];
+                document.getElementById("image2").src = "https://raw.githubusercontent.com/commaai/comma10k/master/imgs/" + maskImages[index];
+                document.getElementById("image1").src = "https://raw.githubusercontent.com/commaai/comma10k/master/masks/" + maskImages[index];
+                document.getElementById("image3").src = "https://raw.githubusercontent.com/spektor56/comma10kviewer/master/ConfusionMasks/" + maskImages[index];
                 resetView();
                 M.Toast.dismissAll();
-                M.toast({ html: images[index] });
+                M.toast({ html: maskImages[index] });
             }
 
             function resetView() {
@@ -438,7 +444,7 @@
 
             window.addEventListener("dblclick",
                 event => {
-                    
+
                     const nextScale = currentScale + 0.25;
 
                     zoomer.zoom(nextScale, event);
@@ -460,7 +466,7 @@
             document.getElementById('zoom-container').addEventListener('mousemove', zoomer.while_drag);
             document.getElementById('zoom-container').addEventListener('mouseup', zoomer.stop_drag);
             document.getElementById('zoom-container').addEventListener('mouseout', zoomer.stop_drag);
-            document.getElementById('index').addEventListener('change', function(evt) { changeImage(Number(this.value)) });
+            document.getElementById('index').addEventListener('change', function (evt) { changeImage(Number(this.value)) });
             document.getElementById('d').addEventListener('change', imageGroup);
             document.getElementById('h').addEventListener('change', imageGroup);
             document.getElementById('r').addEventListener('change', imageGroup);
@@ -480,17 +486,17 @@
                     } else if (type == 'h') {
                         document.getElementById('h').click();
                         newIndex = Math.min(newIndex, hardImages.length - 1);
-                    } 
-			/*
-			else if (type == 's') {
-                        document.getElementById('s').click();
-                        newIndex = Math.min(newIndex, saImages.length - 1);
+                    }
+                    /*
+                    else if (type == 's') {
+                                document.getElementById('s').click();
+                                newIndex = Math.min(newIndex, saImages.length - 1);
 
-                    } */
-		    else {
+                            } */
+                    else {
                         newIndex = Math.min(newIndex, baseImages.length - 1);
                     }
-                    
+
                     document.getElementById('index').value = newIndex;
                     changeImage(newIndex);
                 }
