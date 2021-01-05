@@ -114,12 +114,11 @@
                     <input id="r" class="with-gap" name="group3" type="radio" />
                     <span style="padding-left: 25px">R;</span>
                 </label>
-                <!--
-                    <label>
-                        <input id="s" class="with-gap" name="group3" type="radio" />
-                        <span style="padding-left: 25px">S;</span>
+                 <label>
+                        <input id="u" class="with-gap" name="group3" type="radio" />
+                        <span style="padding-left: 25px">U;</span>
                     </label>
-                -->
+                
             </div>
             <div style="flex-grow: 1; margin: 0; padding: 0">
                 <input style="margin: 0; padding: 0;" id="opacityControl" type="range" min="0" max="1" step="0.01" value="0.5" oninput="image1.style.opacity = document.getElementById('image1').classList.contains('hidden') ?  0 : opacityControl.value; image3.style.opacity = document.getElementById('image3').classList.contains('hidden') ?  0 : opacityControl.value" />
@@ -144,7 +143,6 @@
 <script type="text/javascript" src="ImageCollections/userImages.js"></script>
 <script>
     var currentIndex = 0;
-    var imageType = '';
     var maskImages = baseImages;
     document.addEventListener('DOMContentLoaded',
         (event) => {
@@ -347,11 +345,10 @@
                         } else if (document.getElementById('h').checked) {
                             type = 'h';
                         }
-                        /*
-                        else if (document.getElementById('s').checked) {
-                                    type = 's';
+                        else if (document.getElementById('u').checked) {
+                                    type = 'u';
                                 }
-                    */
+                        
                         copyLink = location.toString().replace(location.search, "") + "?id=" + currentIndex + "&type=" + type;
                         copyMessage = "Copied link to current view";
                     }
@@ -381,31 +378,27 @@
             function imageGroup() {
                 if (this.id === "d" && this.checked) {
                     maskImages = baseImages;
-                    document.getElementById('index').max = 8999;
+                    document.getElementById('index').max = maskImages.length-1;
                     document.getElementById('index').value = 0;
-                    imageType = '';
                     changeImage(0);
                 } else if (this.id === "h" && this.checked) {
                     maskImages = hardImages;
-                    document.getElementById('index').max = 799;
+                    document.getElementById('index').max = maskImages.length-1;
                     document.getElementById('index').value = 0;
-                    imageType = 'h';
                     changeImage(0);
                 } else if (this.id === "r" && this.checked) {
                     maskImages = requestImages;
-                    document.getElementById('index').max = 84;
+                    document.getElementById('index').max = maskImages.length-1;
                     document.getElementById('index').value = 0;
-                    imageType = 'r';
                     changeImage(0);
                 }
-                /* else if (this.id === "s" && this.checked) {
-                         maskImages = saImages;
-                         document.getElementById('index').max = 3999;
+                else if (this.id === "u" && this.checked) {
+                         maskImages = userImages;
+                         document.getElementById('index').max = maskImages.length-1;
                          document.getElementById('index').value = 0;
-                 imageType = 's';
                          changeImage(0);
                      }
-             */
+             
             }
 
             function changeImage(index) {
@@ -470,7 +463,7 @@
             document.getElementById('d').addEventListener('change', imageGroup);
             document.getElementById('h').addEventListener('change', imageGroup);
             document.getElementById('r').addEventListener('change', imageGroup);
-            //document.getElementById('s').addEventListener('change', imageGroup);
+            document.getElementById('u').addEventListener('change', imageGroup);
 
             document.onkeydown = checkKey;
 
@@ -487,12 +480,11 @@
                         document.getElementById('h').click();
                         newIndex = Math.min(newIndex, hardImages.length - 1);
                     }
-                    /*
-                    else if (type == 's') {
-                                document.getElementById('s').click();
-                                newIndex = Math.min(newIndex, saImages.length - 1);
+                    else if (type == 'u') {
+                                document.getElementById('u').click();
+                                newIndex = Math.min(newIndex, userImages.length - 1);
 
-                            } */
+                            } 
                     else {
                         newIndex = Math.min(newIndex, baseImages.length - 1);
                     }
