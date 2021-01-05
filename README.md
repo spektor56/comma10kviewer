@@ -12,4 +12,5 @@ Up/Down Arrow Keys - Mask Opacity
 Comma/Space - Toggle Segnet Mask Layer
 C - Toggle Confusion Mask Layer
 P - Toggle Between Pixel and High Quality Upscaling
+D - Show all images with the same dongle ID
 </pre>
