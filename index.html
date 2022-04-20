@@ -131,6 +131,10 @@
                 <input id="w" class="with-gap" name="group3" type="radio" />
                 <span style="padding-left: 25px">W;</span>
             </label>
+            <label>
+                <input id="f" class="with-gap" name="group3" type="radio" />
+                <span style="padding-left: 25px">F;</span>
+            </label>
         </div>
         <div style="flex-grow: 1; margin: 0; padding: 0">
             <input style="margin: 0; padding: 0;" id="opacityControl" type="range" min="0" max="1" step="0.01" value="0.5" oninput="image1.style.opacity = document.getElementById('image1').classList.contains('hidden') ?  0 : opacityControl.value; image3.style.opacity = document.getElementById('image3').classList.contains('hidden') ?  0 : opacityControl.value"/>
@@ -161,7 +165,7 @@
     var folderNumber = "";
     document.addEventListener('DOMContentLoaded',
         (event) => {
-            var allImages = baseImages.concat(userImages, hardImages, requestImages, wideImages);
+            var allImages = baseImages.concat(userImages, hardImages, requestImages, wideImages, driverImages);
             allImages.map(function (image) {
                 var imageParts = image.split('_');
                 if (dongleImages.has(imageParts[1])) {
@@ -380,6 +384,9 @@
                         else if (document.getElementById('w').checked) {
                             type = 'w';
                         }
+                        else if (document.getElementById('f').checked) {
+                            type = 'f';
+                        }
                         
                         copyLink = location.toString().replace(location.search, "") + "?id=" + currentIndex + "&type=" + type;
                         copyMessage = "Copied link to current view";
@@ -456,6 +463,13 @@
                     document.getElementById('index').value = 0;
                     changeImage(0);
                 }
+                else if (this.id === "f" && this.checked) {
+                    folderNumber = "d";
+                    maskImages = driverImages;
+                    document.getElementById('index').max = driverImages.length-1;
+                    document.getElementById('index').value = 0;
+                    changeImage(0);
+                }
              
             }
 
@@ -523,6 +537,7 @@
             document.getElementById('r').addEventListener('change', imageGroup);
             document.getElementById('u').addEventListener('change', imageGroup);
             document.getElementById('w').addEventListener('change', imageGroup);
+            document.getElementById('f').addEventListener('change', imageGroup);
 
             document.onkeydown = checkKey;
 
@@ -548,6 +563,11 @@
                     else if (type == 'w') {
                         folderNumber = "2";
                         document.getElementById('w').click();
+                        newIndex = Math.min(newIndex, wideImages.length - 1);
+                    } 
+                    else if (type == 'f') {
+                        folderNumber = "d";
+                        document.getElementById('f').click();
                         newIndex = Math.min(newIndex, wideImages.length - 1);
                     } 
                     else {
